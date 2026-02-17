@@ -9,7 +9,20 @@ jobs:
   ingest:
     runs-on: ubuntu-latest
     steps:
+      - name: Validate secrets
+        run: |
+          test -n "${{ secrets.APP_URL }}" || (echo "APP_URL is empty" && exit 1)
+          test -n "${{ secrets.CRON_SECRET }}" || (echo "CRON_SECRET is empty" && exit 1)
+          echo "APP_URL=${{ secrets.APP_URL }}"
+
       - name: Trigger ingest endpoint
         run: |
-          curl -sS -X POST "${{ secrets.APP_URL }}/api/cron/ingest" \
-            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
+          set -euo pipefail
+          HTTP_CODE=$(curl -sS -o response.json -w "%{http_code}" -X POST "${{ secrets.APP_URL }}/api/cron/ingest" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
+          echo "HTTP_CODE=$HTTP_CODE"
+          echo "Response body:"
+          cat response.json
+          if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then
+            exit 1
+          fi
