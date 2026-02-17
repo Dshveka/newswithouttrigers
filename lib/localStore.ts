@@ -8,7 +8,9 @@ type LocalDb = {
   digests: DigestRow[];
 };
 
-const DB_PATH = path.join(process.cwd(), ".data", "dev-db.json");
+const DB_PATH = process.env.VERCEL
+  ? path.join("/tmp", "newswithouttrigers-dev-db.json")
+  : path.join(process.cwd(), ".data", "dev-db.json");
 
 async function readDb(): Promise<LocalDb> {
   try {
