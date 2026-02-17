@@ -79,6 +79,15 @@ npm run ingest:mock
 curl -X POST "http://localhost:3000/api/cron/ingest?secret=YOUR_CRON_SECRET"
 ```
 
+### חלופה ל־Vercel Hobby (כל 15 דקות בחינם)
+
+אם החשבון ב־Vercel הוא Hobby, אפשר להריץ cron כל 15 דקות דרך GitHub Actions.
+
+- הקובץ מוכן בפרויקט: `.github/workflows/ingest.yml`
+- צריך להגדיר ב־GitHub repository secrets:
+  - `APP_URL` = כתובת ה־Vercel שלך (למשל `https://your-app.vercel.app`)
+  - `CRON_SECRET` = אותו ערך שמוגדר אצלך באפליקציה
+
 ## הערות אמינות
 
 - המערכת כוללת כלל קשיח: אירוע נכנס לדיג'סט רק עם 2 מקורות לפחות.
