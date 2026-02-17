@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Assistant", "Arial", sans-serif;
+  background: #f7f7f7;
+  color: #111111;
+}
+
+a {
+  color: inherit;
+}
